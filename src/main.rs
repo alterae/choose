@@ -10,25 +10,26 @@ fn main() {
         eprintln!("`number` must be at least 1");
         process::exit(2);
     }
-    if opts.number > opts.options.len() {
-        eprintln!("`number` cannot exceed the number of options");
+    if opts.number > opts.choices.len() {
+        eprintln!("`number` cannot exceed the number of choices");
         process::exit(2);
     }
 
     let mut rng = rand::thread_rng();
 
-    for result in opts.options.choose_multiple(&mut rng, opts.number) {
+    for result in opts.choices.choose_multiple(&mut rng, opts.number) {
         println!("{result}");
     }
 }
 
-/// Make a random selection from a list of options.
+/// Make a random selection from a list of choices.
 #[derive(Parser, Debug)]
+#[clap(version)]
 struct Opts {
-    /// The options to choose from.
+    /// The possible choices to pick from.
     #[clap(required = true)]
-    options: Vec<String>,
-    /// How many options to choose.
+    choices: Vec<String>,
+    /// How many choices to pick.
     #[clap(short, long, default_value = "1")]
     number: usize,
 }
