@@ -6,18 +6,19 @@ because i felt like it
 ## usage
 
 ```
-choose
-Make a random selection from a list of options
+choose 0.1.1
+Make a random selection from a list of choices
 
 USAGE:
-    choose [OPTIONS] <OPTIONS>...
+    choose [OPTIONS] <CHOICES>...
 
 ARGS:
-    <OPTIONS>...    The options to choose from
+    <CHOICES>...    The possible choices to pick from
 
 OPTIONS:
     -h, --help               Print help information
-    -n, --number <NUMBER>    How many options to choose [default: 1]
+    -n, --number <NUMBER>    How many choices to pick [default: 1]
+    -V, --version            Print version information
 ```
 
 ## contributing
