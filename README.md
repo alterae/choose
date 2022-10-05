@@ -5,19 +5,17 @@ A command-line tool for picking things randomly.
 ## Usage
 
 ```
-choose 0.1.1
 Make a random selection from a list of choices
 
-USAGE:
-    choose [OPTIONS] <CHOICES>...
+Usage: choose [OPTIONS] <CHOICES>...
 
-ARGS:
-    <CHOICES>...    The possible choices to pick from
+Arguments:
+  <CHOICES>...  The possible choices to pick from
 
-OPTIONS:
-    -h, --help               Print help information
-    -n, --number <NUMBER>    How many choices to pick [default: 1]
-    -V, --version            Print version information
+Options:
+  -n, --number <NUMBER>  How many choices to pick [default: 1]
+  -h, --help             Print help information
+  -V, --version          Print version information
 ```
 
 ## Contributing
