@@ -1,9 +1,8 @@
-# choose
+# Choose
 
-a command-line tool for picking things randomly, made in like half an hour
-because i felt like it
+A command-line tool for picking things randomly.
 
-## usage
+## Usage
 
 ```
 choose 0.1.1
@@ -21,11 +20,10 @@ OPTIONS:
     -V, --version            Print version information
 ```
 
-## contributing
+## Contributing
 
-if for some reason you want to make a pull request, feel free. i will probably
-not be adding any more features to this myself
+Pull requests are welcome. If you plan on submitting one, make sure to run rustfmt and clippy first, please.
 
-## license
+## License
 
-the MIT license (see [LICENSE](LICENSE))
+This program is released under the terms of the MIT license (see [LICENSE](LICENSE)).
