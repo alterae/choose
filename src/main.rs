@@ -1,18 +1,23 @@
-use std::process;
-
-use clap::Parser;
+use clap::{arg, command, error::ErrorKind, CommandFactory, Parser};
+use colored::Colorize;
 use rand::prelude::SliceRandom;
 
 fn main() {
     let opts = Opts::parse();
 
-    if opts.number == 0 {
-        eprintln!("`number` must be at least 1");
-        process::exit(2);
-    }
+    // FIXME: move this logic into the actual command parsing
     if opts.number > opts.choices.len() {
-        eprintln!("`number` cannot exceed the number of choices");
-        process::exit(2);
+        Opts::command()
+            .error(
+                ErrorKind::ValueValidation,
+                format!(
+                    "Invalid value {} for '{}': cannot exceed number of choices ({})",
+                    format!("\"{}\"", opts.number).yellow(),
+                    "--number <NUMBER>".yellow(),
+                    opts.choices.len(),
+                ),
+            )
+            .exit();
     }
 
     let mut rng = rand::thread_rng();
@@ -24,12 +29,22 @@ fn main() {
 
 /// Make a random selection from a list of choices.
 #[derive(Parser, Debug)]
-#[clap(version)]
+#[command(version)]
 struct Opts {
     /// The possible choices to pick from.
-    #[clap(required = true)]
+    #[arg(required = true)]
     choices: Vec<String>,
     /// How many choices to pick.
-    #[clap(short, long, default_value = "1")]
+    #[arg(short, long, default_value = "1", value_parser = validate_number)]
     number: usize,
+}
+
+fn validate_number(s: &str) -> Result<usize, String> {
+    let number: usize = s.parse().map_err(|_| "invalid digit found in string")?;
+
+    if number == 0 {
+        Err("must be at least 1".into())
+    } else {
+        Ok(number)
+    }
 }
