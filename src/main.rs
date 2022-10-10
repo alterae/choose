@@ -39,6 +39,10 @@ struct Opts {
     number: usize,
 }
 
+/// Value parser for ensuring that the `number` option is greater than 0.
+///
+/// FIXME: Should also ensure it doesn't exceed the number of choices provided, but
+/// clap doesn't want to allow that :(
 fn validate_number(s: &str) -> Result<usize, String> {
     let number: usize = s.parse().map_err(|_| "invalid digit found in string")?;
 
