@@ -1,5 +1,6 @@
 use clap::Parser;
 use rand::prelude::SliceRandom;
+use std::io::{self, BufRead};
 
 fn main() {
     let opts = Opts::parse();
@@ -20,8 +21,18 @@ fn main() {
 
     let mut rng = rand::thread_rng();
 
-    for result in opts.choices.choose_multiple(&mut rng, opts.number) {
-        println!("{result}");
+    #[cfg(debug_assertions)]
+    dbg!(&opts);
+
+    if opts.lines {
+        let lines = get_lines_from_files(opts.choices);
+        for result in lines.choose_multiple(&mut rng, opts.number) {
+            println!("{result}");
+        }
+    } else {
+        for result in opts.choices.choose_multiple(&mut rng, opts.number) {
+            println!("{result}");
+        }
     }
 }
 
@@ -30,11 +41,14 @@ fn main() {
 #[command(version)]
 struct Opts {
     /// The possible choices to pick from.
-    // #[arg(required = true)]
     choices: Vec<String>,
     /// How many choices to pick.
     #[arg(short, long, default_value = "1", value_parser = validate_number)]
     number: usize,
+    /// Whether to treat `choices` as a list of files, and select random lines from those files.
+    /// If no files are provided, read from stdin.
+    #[arg(short, long)]
+    lines: bool,
 }
 
 /// Value parser for ensuring that the `number` option is greater than 0.
@@ -49,4 +63,30 @@ fn validate_number(s: &str) -> Result<usize, String> {
     } else {
         Ok(number)
     }
+}
+
+fn get_lines_from_files(files: Vec<String>) -> Vec<String> {
+    let mut lines = Vec::new();
+
+    for file in files {
+        let file_name = file.clone();
+        let file = std::fs::File::open(&file).expect(&format!("Could not open file `{}`", &file));
+        let reader = std::io::BufReader::new(&file);
+
+        for line in reader.lines() {
+            lines.push(line.expect(&format!("Could not read line from file `{}`", &file_name)));
+        }
+    }
+
+    // If no files were provided, read from stdin
+    if lines.is_empty() {
+        let stdin = io::stdin();
+        let reader = stdin.lock();
+
+        for line in reader.lines() {
+            lines.push(line.unwrap());
+        }
+    }
+
+    lines
 }
