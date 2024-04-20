@@ -24,4 +24,4 @@ Pull requests are welcome. If you plan on submitting one, make sure to run rustf
 
 ## License
 
-This program is released under the terms of the MIT license (see [LICENSE](LICENSE)).
+This program is released under the terms of the MIT license (see [LICENSE](./LICENSE)).
