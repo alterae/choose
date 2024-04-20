@@ -1,24 +1,22 @@
-use clap::{arg, command, error::ErrorKind, CommandFactory, Parser};
-use colored::Colorize;
+use clap::Parser;
 use rand::prelude::SliceRandom;
 
 fn main() {
     let opts = Opts::parse();
 
-    // FIXME: move this logic into the actual command parsing
-    if opts.number > opts.choices.len() {
-        Opts::command()
-            .error(
-                ErrorKind::ValueValidation,
-                format!(
-                    "Invalid value '{}' for '{}': cannot exceed number of choices ({})",
-                    format!("{}", opts.number).yellow(),
-                    "--number <NUMBER>".bold(),
-                    opts.choices.len(),
-                ),
-            )
-            .exit();
-    }
+    // if opts.number > opts.choices.len() {
+    //     Opts::command()
+    //         .error(
+    //             ErrorKind::ValueValidation,
+    //             format!(
+    //                 "Invalid value '{}' for '{}': cannot exceed number of choices ({})",
+    //                 format!("{}", opts.number).yellow(),
+    //                 "--number <NUMBER>".bold(),
+    //                 opts.choices.len(),
+    //             ),
+    //         )
+    //         .exit();
+    // }
 
     let mut rng = rand::thread_rng();
 
@@ -32,7 +30,7 @@ fn main() {
 #[command(version)]
 struct Opts {
     /// The possible choices to pick from.
-    #[arg(required = true)]
+    // #[arg(required = true)]
     choices: Vec<String>,
     /// How many choices to pick.
     #[arg(short, long, default_value = "1", value_parser = validate_number)]
