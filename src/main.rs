@@ -11,9 +11,9 @@ fn main() {
             .error(
                 ErrorKind::ValueValidation,
                 format!(
-                    "Invalid value {} for '{}': cannot exceed number of choices ({})",
-                    format!("\"{}\"", opts.number).yellow(),
-                    "--number <NUMBER>".yellow(),
+                    "Invalid value '{}' for '{}': cannot exceed number of choices ({})",
+                    format!("{}", opts.number).yellow(),
+                    "--number <NUMBER>".bold(),
                     opts.choices.len(),
                 ),
             )
